@@ -5,10 +5,12 @@ import { AppService } from './app.service';
 import { AdminsModule } from './admin/admin.module';
 import { DogModule } from './dog/dog.module';
 import { UserModule } from './user/user.module';
+import { LoginModule } from './login/login.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { Connection } from 'typeorm';
 import { User } from './user/user.entity';
+import { QjhModule } from './qjh/qjh.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,6 +26,8 @@ import { User } from './user/user.entity';
     AdminsModule,
     DogModule,
     UserModule,
+    LoginModule,
+    QjhModule,
   ],
   controllers: [AppController],
   providers: [AppService],

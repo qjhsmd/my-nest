@@ -31,7 +31,7 @@ export class AdminController {
   ) {
     console.log('========');
     console.log(admin);
-    console.log(Admin.name);
+    console.log(Admin);
     console.log('========');
     this.adminService.create(admin);
     // return 'This action adds a new cat';
