@@ -2,15 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { AdminsModule } from './admin/admin.module';
-import { DogModule } from './dog/dog.module';
-import { UserModule } from './user/user.module';
-import { LoginModule } from './login/login.module';
+import { AdminsModule } from './modules/admin/admin.module';
+import { UserModule } from './modules/user/user.module';
+// import { LoginModule } from './modules/login/login.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 // import { Connection } from 'typeorm';
-import { User } from './user/user.entity';
-import { QjhModule } from './qjh/qjh.module';
+import { User } from './modules/user/user.entity';
+import { AuthModule } from './modules/auth/auth.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,10 +23,9 @@ import { QjhModule } from './qjh/qjh.module';
       synchronize: true,
     }),
     AdminsModule,
-    DogModule,
     UserModule,
-    LoginModule,
-    QjhModule,
+    // LoginModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
