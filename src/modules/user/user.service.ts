@@ -27,11 +27,12 @@ export class UserService {
     return this.usersRepository.findOne(id);
   }
 
-  findOneByUserName(user_name: string, pass_word: string): Promise<User> {
+  async findOneByUserName(user_name: string, pass_word: string): Promise<User> {
     try {
-      const myUser: any = this.usersRepository.findOne({
+      const myUser: any = await this.usersRepository.findOne({
         user_name: user_name,
       });
+      console.log(myUser);
       if (myUser && myUser.pass_word === pass_word) {
         console.log(myUser);
         return myUser;

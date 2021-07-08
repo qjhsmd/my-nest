@@ -8,11 +8,15 @@ console.log('测试');
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private readonly userService: UserService) {
-    super();
+    super({
+      usernameField: 'user_name',
+      passwordField: 'pass_word',
+    });
     this.userService = userService;
   }
 
   async validate(user_name: string, pass_word: string): Promise<User> {
+    console.log(user_name);
     const user = await this.userService.findOneByUserName(user_name, pass_word);
     console.log(user);
     if (user) return user;

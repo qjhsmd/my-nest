@@ -29,7 +29,10 @@ export class AuthService {
       eamil: 'qjh886@qq.com',
     };
     return {
-      accesstoken: this.jwtService.sign(userInfo, { expiresIn: 3600 * 24 }),
+      code: 0,
+      data: {
+        token: this.jwtService.sign(userInfo, { expiresIn: 0 }),
+      }
     };
   }
 }
