@@ -5,7 +5,7 @@ import { User } from '../user/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService) { }
+  constructor(private readonly jwtService: JwtService) {}
   // 生成 accesstoken refreshToken
   async genToken(payload: JwtPayload): Promise<any> {
     const accesstoken = this.jwtService.sign(payload, { expiresIn: 3600 * 24 });
@@ -16,9 +16,6 @@ export class AuthService {
   }
   async verify(token: string): Promise<any> {
     const user = this.jwtService.verify(token);
-    // const refreshToken = this.jwtService.sign(payload, {
-    //   expiresIn: jwtConstants.refreshTokenExpiresIn,
-    // });
     return { ...user };
   }
   async login(user: User): Promise<any> {
@@ -26,13 +23,14 @@ export class AuthService {
       jti: 1,
       iss: 'cnnngt.top',
       user: user.user_name,
+      sub: user.id,
       eamil: 'qjh886@qq.com',
     };
     return {
       code: 0,
       data: {
-        token: this.jwtService.sign(userInfo, { expiresIn: 0 }),
-      }
+        token: this.jwtService.sign(userInfo, { expiresIn: 60 }),
+      },
     };
   }
 }

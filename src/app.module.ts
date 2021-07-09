@@ -1,15 +1,17 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { AdminsModule } from './modules/admin/admin.module';
 import { UserModule } from './modules/user/user.module';
-// import { LoginModule } from './modules/login/login.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ArtcleModule } from './modules/artcle/artcle.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-// import { Connection } from 'typeorm';
 import { User } from './modules/user/user.entity';
-import { AuthModule } from './modules/auth/auth.module';
+import {Artcle} from './modules/artcle/artcle.entity'
+import { LoggerMiddleware } from './middleware/logger.middleware';
+
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -19,17 +21,19 @@ import { AuthModule } from './modules/auth/auth.module';
       username: 'root',
       password: '_Q,j&h*54618482',
       database: 'blog',
-      entities: [User],
+      entities: [User, Artcle],
       synchronize: true,
     }),
     AdminsModule,
     UserModule,
-    // LoginModule,
     AuthModule,
+    ArtcleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // constructor(private readonly connection: Connection) {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
 }

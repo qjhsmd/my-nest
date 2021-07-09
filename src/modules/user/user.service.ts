@@ -23,18 +23,22 @@ export class UserService {
     return this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    return this.usersRepository.findOne(id);
+  async findOne(id: number): Promise<any> {
+    const res = await this.usersRepository.findOne(id);
+    return {
+      id: res.id,
+      image: res.image,
+      roles: res.roles,
+      user_name: res.user_name,
+    };
   }
 
-  async findOneByUserName(user_name: string, pass_word: string): Promise<User> {
+  async userLogin(user_name: string, pass_word: string): Promise<User> {
     try {
       const myUser: any = await this.usersRepository.findOne({
         user_name: user_name,
       });
-      console.log(myUser);
       if (myUser && myUser.pass_word === pass_word) {
-        console.log(myUser);
         return myUser;
       } else {
         return null;

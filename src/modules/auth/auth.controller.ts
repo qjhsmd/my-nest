@@ -10,7 +10,6 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
 import { User } from '../user/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from '../auth/auth.service';
@@ -24,14 +23,12 @@ export class AuthController {
 
   @UseGuards(AuthGuard('local'))
   @Post('login')
-  async login(@Body() user: User): Promise<User> {
-    // return request.user;
-    return this.authService.login(user);
+  async login(@Body() user: User, @Request() req): Promise<User> {
+    return this.authService.login(req.user);
   }
 
-  //   async saveUser(
-  //     @Body() user: User,
-  //     @Res({ passthrough: true }) res: Response,
-  //   ): Promise<any> {
-  //   }
+  @Get('logout')
+  async logout(): Promise<User> {
+    throw new HttpException({ code: 0, message: '请求成功' }, HttpStatus.OK);
+  }
 }

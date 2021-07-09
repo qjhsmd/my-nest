@@ -1,4 +1,12 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+  HttpException,
+  HttpStatus,
+  Request,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
 import { AuthGuard } from '@nestjs/passport';
@@ -18,9 +26,11 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get('findOne')
-  async findOne(@Query() user: User): Promise<User> {
-    return this.userService.findOne(user.id);
+  @UseGuards(AuthGuard('jwt'))
+  @Get('userInfo')
+  async findOne(@Query() user: User, @Request() req): Promise<User> {
+    const res: any = await this.userService.findOne(user.id);
+    throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @Get('remove')
