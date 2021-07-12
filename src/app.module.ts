@@ -6,10 +6,12 @@ import { AdminsModule } from './modules/admin/admin.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ArtcleModule } from './modules/artcle/artcle.module';
+import { ClassifyModule } from './modules/classify/classify.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
-import {Artcle} from './modules/artcle/artcle.entity'
+import { ArtcleEntity } from './modules/artcle/artcle.entity';
+import { MyClassify } from './modules/classify/classify.entity';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 
 @Module({
@@ -21,13 +23,14 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
       username: 'root',
       password: '_Q,j&h*54618482',
       database: 'blog',
-      entities: [User, Artcle],
+      entities: [User, MyClassify, ArtcleEntity], // Artcle,
       synchronize: true,
     }),
     AdminsModule,
     UserModule,
     AuthModule,
-    ArtcleModule,
+    ClassifyModule,
+    // ArtcleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
