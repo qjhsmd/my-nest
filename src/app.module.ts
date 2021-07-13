@@ -1,6 +1,6 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppController } from './modules/app/app.controller';
+import { AppService } from './modules/app/app.service';
 
 import { AdminsModule } from './modules/admin/admin.module';
 import { UserModule } from './modules/user/user.module';
