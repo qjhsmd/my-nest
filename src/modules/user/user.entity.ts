@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -16,4 +22,10 @@ export class User {
 
   @Column({ default: 'www.baidu,com', nullable: true })
   image: string;
+
+  @CreateDateColumn()
+  create_time: Date;
+
+  @UpdateDateColumn()
+  update_time: Date;
 }

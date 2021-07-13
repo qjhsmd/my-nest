@@ -11,6 +11,7 @@ import { UserService } from './user.service';
 import { User } from './user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+
 @Controller('api/user')
 @ApiTags('用户信息')
 export class UserController {
@@ -25,8 +26,9 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Get('findAll')
   @ApiOperation({ summary: '查询所有用户信息' })
-  async findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  async findAll(@Query() query: any): Promise<User[]> {
+    const res: any = await this.userService.findAll(query);
+    throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))

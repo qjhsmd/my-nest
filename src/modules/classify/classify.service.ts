@@ -21,4 +21,11 @@ export class ClassifyService {
       return err;
     }
   }
+  async remove(id: number): Promise<void> {
+    try {
+      await this.classifyRepository.delete(id);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }

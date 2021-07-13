@@ -30,7 +30,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     UserModule,
     AuthModule,
     ClassifyModule,
-    // ArtcleModule,
+    ArtcleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,5 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { ArtcleEntity } from '../artcle/artcle.entity';
 @Entity()
 export class MyClassify {
   @PrimaryGeneratedColumn()
@@ -10,4 +10,6 @@ export class MyClassify {
 
   @Column({ nullable: false })
   pid: number;
+  @OneToOne((type) => ArtcleEntity, (artcleEntity) => artcleEntity.classify)
+  artcledata: ArtcleEntity;
 }

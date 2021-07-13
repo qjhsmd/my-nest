@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection } from 'typeorm';
 import { User } from './user.entity';
-
+import { searchUser } from './user.interface';
 @Injectable()
 export class UserService {
   constructor(
@@ -19,8 +19,21 @@ export class UserService {
       return err;
     }
   }
-  findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+  async findAll(query): Promise<any> {
+    const total = await this.usersRepository.count();
+    const list = await this.usersRepository.find({
+      select: [
+        'user_name',
+        'roles',
+        'image',
+        'id',
+        'create_time',
+        'update_time',
+      ],
+      skip: query.pageSize * (query.page - 1),
+      take: query.pageSize,
+    });
+    return { total, list };
   }
 
   async findOne(id: number): Promise<any> {

@@ -29,7 +29,7 @@ export class AuthService {
     return {
       code: 0,
       data: {
-        token: this.jwtService.sign(userInfo, { expiresIn: 60 }),
+        token: this.jwtService.sign(userInfo, { expiresIn: 3600 * 24 }),
       },
     };
   }

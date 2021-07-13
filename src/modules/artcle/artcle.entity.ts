@@ -4,6 +4,8 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { MyClassify } from '../classify/classify.entity';
 @Entity()
@@ -26,8 +28,11 @@ export class ArtcleEntity {
   @Column('text')
   content: string;
 
-  @Column({ nullable: true, type: 'datetime' })
+  @CreateDateColumn()
   create_time: Date;
+
+  @UpdateDateColumn()
+  update_time: Date;
 
   @Column({ default: 0, nullable: true })
   view_count: number;
@@ -38,7 +43,10 @@ export class ArtcleEntity {
   @Column({ default: 'test', nullable: true })
   artcle_describe: string;
 
-  @OneToOne((type) => MyClassify)
+  @Column()
+  publish_time: Date;
+
+  @OneToOne((type) => MyClassify, (MyClassify) => MyClassify.artcledata)
   @JoinColumn()
-  MyClassify: MyClassify;
+  classify: MyClassify;
 }

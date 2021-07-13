@@ -7,10 +7,36 @@ import { Repository } from 'typeorm';
 export class ArtcleService {
   constructor(
     @InjectRepository(ArtcleEntity)
-    private usersRepository: Repository<ArtcleEntity>,
+    private artcleRepository: Repository<ArtcleEntity>,
   ) {}
 
-  findAll(): Promise<ArtcleEntity[]> {
-    return this.usersRepository.find();
+  async saveArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
+    console.log(artcle);
+    try {
+      const res = await this.artcleRepository.save(artcle);
+      console.log(res);
+      return res;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
+
+  async findAll(query: any): Promise<any> {
+    const total = await this.artcleRepository.count();
+    const list = await this.artcleRepository.find({
+      select: [
+        'title',
+        'classify_name',
+        'author',
+        'create_time',
+        'view_count',
+        'update_time',
+        'artcle_describe',
+      ],
+      skip: query.pageSize * (query.page - 1),
+      take: query.pageSize,
+    });
+    return { total, list };
   }
 }
