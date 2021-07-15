@@ -20,7 +20,11 @@ export class User {
   @Column({ nullable: false })
   pass_word: string;
 
-  @Column({ default: 'www.baidu,com', nullable: true })
+  @Column({
+    default:
+      'https://img2.woyaogexing.com/2021/07/15/5032080dcd8844f7bbdd89b6ac022bdf!400x400.png',
+    nullable: true,
+  })
   image: string;
 
   @CreateDateColumn()

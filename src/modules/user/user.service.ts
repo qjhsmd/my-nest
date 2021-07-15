@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Connection, DeleteResult } from 'typeorm';
 import { User } from './user.entity';
@@ -16,7 +16,11 @@ export class UserService {
       const res = await this.usersRepository.save(user);
       console.log(res);
     } catch (err) {
-      return err;
+      // return err;
+      throw new HttpException(
+        { message: '创建用户失败', err: err },
+        HttpStatus.OK,
+      );
     }
   }
   async findAll(query): Promise<any> {

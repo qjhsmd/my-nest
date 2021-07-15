@@ -1,8 +1,10 @@
 import {
   Controller,
   Get,
+  Post,
   Query,
   UseGuards,
+  Body,
   HttpException,
   HttpStatus,
   Request,
@@ -17,9 +19,9 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get('saveUser')
+  @Post('saveUser')
   @ApiOperation({ summary: '保存用户信息' })
-  async saveUser(@Query() user: User): Promise<any> {
+  async saveUser(@Body() user: User): Promise<any> {
     // const res: any =
     return await this.userService.saveUser(user);
     //throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
