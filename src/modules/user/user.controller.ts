@@ -19,28 +19,35 @@ export class UserController {
 
   @Get('saveUser')
   @ApiOperation({ summary: '保存用户信息' })
-  async saveUser(@Query() user: User): Promise<void> {
-    return this.userService.saveUser(user);
+  async saveUser(@Query() user: User): Promise<any> {
+    // const res: any =
+    return await this.userService.saveUser(user);
+    //throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('findAll')
   @ApiOperation({ summary: '查询所有用户信息' })
   async findAll(@Query() query: any): Promise<User[]> {
-    const res: any = await this.userService.findAll(query);
-    throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
+    // const res: any =
+    return await this.userService.findAll(query);
+    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('userInfo')
-  async findOne(@Query() user: User, @Request() req): Promise<User> {
-    const res: any = await this.userService.findOne(user.id);
-    throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
+  async findOne(@Query() user: User): Promise<User> {
+    // const res: any =
+    return await this.userService.findOne(user.id);
+    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
+  @UseGuards(AuthGuard('jwt'))
   @Get('remove')
-  async remove(@Query() user: User): Promise<void> {
-    return this.userService.remove(user.id);
+  async remove(@Query() user: User): Promise<any> {
+    // const res: any =
+    return await this.userService.remove(user.id);
+    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
   // @Get('createMany')
   // async createMany(@Query() users: User[]): Promise<void> {

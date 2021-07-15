@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { MyClassify } from './classify.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -18,7 +18,12 @@ export class ClassifyService {
       const res = await this.classifyRepository.save(MyClassify);
       console.log(res);
     } catch (err) {
-      return err;
+      console.log(err);
+      // return err;
+      throw new HttpException(
+        { message: '创建分类失败', err: err },
+        HttpStatus.OK,
+      );
     }
   }
   async remove(id: number): Promise<void> {

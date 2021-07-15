@@ -45,6 +45,8 @@ export class ArtcleEntity {
 
   @Column()
   publish_time: Date;
+  @Column()
+  importance: number;
 
   @OneToOne((type) => MyClassify, (MyClassify) => MyClassify.artcledata)
   @JoinColumn()

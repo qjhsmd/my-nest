@@ -35,12 +35,17 @@ export class AuthController {
   // @ApiQuery({ name: 'user_name', description: 'string' })
   // @ApiQuery({ name: 'pass_word', description: 'string', required: false })
   @ApiBody({ description: '用户登录', type: LoginDTO })
-  async login(@Body() user: User, @Request() req): Promise<User> {
-    return this.authService.login(req.user);
+  async login(@Body() user: User, @Request() req): Promise<any> {
+    return await this.authService.login(req.user);
+    // throw new HttpException(
+    //   { code: 0, message: '登录成功', data: res },
+    //   HttpStatus.OK,
+    // );
   }
 
   @Get('logout')
-  async logout(): Promise<User> {
-    throw new HttpException({ code: 0, message: '请求成功' }, HttpStatus.OK);
+  async logout(): Promise<any> {
+    return {};
+    // throw new HttpException({ code: 0, message: '请求成功' }, HttpStatus.OK);
   }
 }

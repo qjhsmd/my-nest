@@ -2,6 +2,8 @@ import {
   Controller,
   Get,
   Post,
+  Put,
+  Delete,
   Query,
   Body,
   Res,
@@ -10,13 +12,19 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { ArtcleEntity } from './Artcle.entity';
+import { ArtcleEntity } from './artcle.entity';
 import { ArtcleService } from './artcle.service';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags, ApiOperation, ApiQuery } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiQuery,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
-@Controller('api/artcle')
+@ApiBearerAuth()
 @ApiTags('文章管理')
+@Controller('api/artcle')
 export class ArtcleController {
   constructor(private readonly artcleService: ArtcleService) {}
 
@@ -24,18 +32,34 @@ export class ArtcleController {
   @Get('findAll')
   @ApiOperation({ summary: '文章列表' })
   async findAll(@Query() query: any): Promise<ArtcleEntity> {
-    const res: any = await this.artcleService.findAll(query);
-    throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
+    return await this.artcleService.findAll(query);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('saveArtcle')
   @ApiOperation({ summary: '创建文章' })
-  async saveArtcle(@Body() artcle: ArtcleEntity): Promise<ArtcleEntity> {
-    const res = await this.artcleService.saveArtcle(artcle);
-    throw new HttpException(
-      { code: 0, message: '创建文章成功', data: { ...res } },
-      HttpStatus.OK,
-    );
+  async saveArtcle(@Body() artcle: ArtcleEntity): Promise<any> {
+    return await this.artcleService.saveArtcle(artcle);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Get('getArtcleDetail')
+  @ApiOperation({ summary: '查询文章详情' })
+  @ApiQuery({ name: 'id', description: 'string' })
+  async getOne(@Query() query: any): Promise<any> {
+    return await this.artcleService.findOne(query.id);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Put('updateArtcle')
+  @ApiOperation({ summary: '修改文章详情' })
+  async updateArtcle(@Body() artcle: ArtcleEntity): Promise<any> {
+    return await this.artcleService.updateArtcle(artcle);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Delete('remove')
+  async remove(@Query() query: any): Promise<any> {
+    return await this.artcleService.remove(query.id);
   }
 }

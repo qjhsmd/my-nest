@@ -18,21 +18,11 @@ import { Admin } from './admin.dto';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  // @Get('Hello')
-  // @HttpCode(500)
-  // getHello(@Req() request: Request): string {
-  //   console.log(request);
-  //   return this.adminService.getHello();
-  // }
   @Post('Hello')
   async create(
     @Body() admin: Admin,
     @Res({ passthrough: true }) res: Response,
   ) {
-    console.log('========');
-    console.log(admin);
-    console.log(Admin);
-    console.log('========');
     this.adminService.create(admin);
     // return 'This action adds a new cat';
     // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);

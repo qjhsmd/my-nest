@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ArtcleEntity } from './artcle.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 @Injectable()
 export class ArtcleService {
@@ -11,10 +11,8 @@ export class ArtcleService {
   ) {}
 
   async saveArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
-    console.log(artcle);
     try {
       const res = await this.artcleRepository.save(artcle);
-      console.log(res);
       return res;
     } catch (err) {
       console.log(err);
@@ -33,10 +31,38 @@ export class ArtcleService {
         'view_count',
         'update_time',
         'artcle_describe',
+        'id',
       ],
       skip: query.pageSize * (query.page - 1),
       take: query.pageSize,
     });
     return { total, list };
+  }
+
+  async findOne(id: number): Promise<any> {
+    try {
+      return await this.artcleRepository.findOne(id);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException({ message: '查询文章详情失败' }, HttpStatus.OK);
+    }
+  }
+
+  async updateArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
+    try {
+      return await this.artcleRepository.save(artcle);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException({ message: '更新文章详情失败' }, HttpStatus.OK);
+    }
+  }
+
+  async remove(id: number): Promise<DeleteResult> {
+    try {
+      return await this.artcleRepository.delete(id);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException({ message: '删除文章失败' }, HttpStatus.OK);
+    }
   }
 }
