@@ -73,6 +73,16 @@ export class UserService {
       return err;
     }
   }
+
+  // 博客端
+  async baseInfo(): Promise<DeleteResult> {
+    try {
+      return await this.usersRepository.query('select * from base_info');
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
   // 测试事务
   // async createMany(users: User[]) {
   //   const queryRunner = this.connection.createQueryRunner();

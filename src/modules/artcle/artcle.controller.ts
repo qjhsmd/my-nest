@@ -62,4 +62,18 @@ export class ArtcleController {
   async remove(@Query() query: any): Promise<any> {
     return await this.artcleService.remove(query.id);
   }
+
+  // 博客展示接口
+  @Get('blogList')
+  @ApiOperation({ summary: '博客展示列表' })
+  async blogList(@Query() query: any): Promise<ArtcleEntity> {
+    return await this.artcleService.findAll(query);
+  }
+
+  @Get('blogDetail')
+  @ApiOperation({ summary: '查询博客详情' })
+  @ApiQuery({ name: 'id', description: 'string' })
+  async getBlogDetail(@Query() query: any): Promise<any> {
+    return await this.artcleService.findOne(query.id);
+  }
 }

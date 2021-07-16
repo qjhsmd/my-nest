@@ -7,11 +7,13 @@ import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ArtcleModule } from './modules/artcle/artcle.module';
 import { ClassifyModule } from './modules/classify/classify.module';
-
+import { MsgModule } from './modules/msg/msg.module';
+import { SocialModule } from './modules/social/social.module'
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { ArtcleEntity } from './modules/artcle/artcle.entity';
 import { MyClassify } from './modules/classify/classify.entity';
+import { MsgEntity } from './modules/msg/msg.entity';
 import { LoggerMiddleware } from './middleware/logger.middleware';
 
 @Module({
@@ -23,7 +25,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
       username: 'root',
       password: '_Q,j&h*54618482',
       database: 'blog',
-      entities: [User, MyClassify, ArtcleEntity], // Artcle,
+      entities: [User, MyClassify, ArtcleEntity, MsgEntity], // Artcle,
       synchronize: true,
     }),
     AdminsModule,
@@ -31,6 +33,8 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
     AuthModule,
     ClassifyModule,
     ArtcleModule,
+    MsgModule,
+    SocialModule,
   ],
   controllers: [AppController],
   providers: [AppService],

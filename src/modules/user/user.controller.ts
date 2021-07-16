@@ -22,34 +22,33 @@ export class UserController {
   @Post('saveUser')
   @ApiOperation({ summary: '保存用户信息' })
   async saveUser(@Body() user: User): Promise<any> {
-    // const res: any =
     return await this.userService.saveUser(user);
-    //throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('findAll')
   @ApiOperation({ summary: '查询所有用户信息' })
   async findAll(@Query() query: any): Promise<User[]> {
-    // const res: any =
     return await this.userService.findAll(query);
-    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('userInfo')
   async findOne(@Query() user: User): Promise<User> {
-    // const res: any =
     return await this.userService.findOne(user.id);
-    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Get('remove')
   async remove(@Query() user: User): Promise<any> {
-    // const res: any =
     return await this.userService.remove(user.id);
-    // throw new HttpException({ code: 0, data: { ...res } }, HttpStatus.OK);
+  }
+
+  @ApiOperation({ summary: '博客查询基本信息' })
+  @Get('baseInfo')
+  async baseInfo(): Promise<any> {
+    const res: any = await this.userService.baseInfo();
+    return res[0];
   }
   // @Get('createMany')
   // async createMany(@Query() users: User[]): Promise<void> {
