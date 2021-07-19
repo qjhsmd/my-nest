@@ -67,7 +67,7 @@ export class ArtcleController {
   @Get('blogList')
   @ApiOperation({ summary: '博客展示列表' })
   async blogList(@Query() query: any): Promise<ArtcleEntity> {
-    return await this.artcleService.findAll(query);
+    return await this.artcleService.blogFindAll(query);
   }
 
   @Get('blogDetail')
@@ -75,5 +75,19 @@ export class ArtcleController {
   @ApiQuery({ name: 'id', description: 'string' })
   async getBlogDetail(@Query() query: any): Promise<any> {
     return await this.artcleService.findOne(query.id);
+  }
+
+  @Get('blogIssue')
+  @ApiOperation({ summary: '发布博客' })
+  @ApiQuery({ name: 'id', description: 'string' })
+  async blogIssue(@Query() query: any): Promise<any> {
+    return await this.artcleService.issue(query.id);
+  }
+
+  @Get('blogUnissue')
+  @ApiOperation({ summary: '取消发布博客' })
+  @ApiQuery({ name: 'id', description: 'string' })
+  async blogUnissue(@Query() query: any): Promise<any> {
+    return await this.artcleService.unIssue(query.id);
   }
 }
