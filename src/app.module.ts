@@ -26,7 +26,7 @@ import { LoggerMiddleware } from './middleware/logger.middleware';
       username: 'root',
       password: '_Q,j&h*54618482',
       database: 'blog',
-      entities: [User, MyClassify, ArtcleEntity, MsgEntity], // Artcle,
+      entities: [User, MyClassify, ArtcleEntity, MsgEntity],
       synchronize: true,
     }),
     AdminsModule,

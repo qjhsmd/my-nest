@@ -74,7 +74,7 @@ export class ArtcleController {
   @ApiOperation({ summary: '查询博客详情' })
   @ApiQuery({ name: 'id', description: 'string' })
   async getBlogDetail(@Query() query: any): Promise<any> {
-    return await this.artcleService.findOne(query.id);
+    return await this.artcleService.findBlogOne(query.id);
   }
 
   @Get('blogIssue')
