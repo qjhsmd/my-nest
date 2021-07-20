@@ -8,8 +8,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ArtcleModule } from './modules/artcle/artcle.module';
 import { ClassifyModule } from './modules/classify/classify.module';
 import { MsgModule } from './modules/msg/msg.module';
-import { SocialModule } from './modules/social/social.module'
-import { FileModule } from './modules/file/file.module'
+import { SocialModule } from './modules/social/social.module';
+import { FileModule } from './modules/file/file.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { ArtcleEntity } from './modules/artcle/artcle.entity';

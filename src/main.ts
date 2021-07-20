@@ -6,6 +6,27 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 // api文档插件
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
+import { readFileSync } from 'fs';
+import { version } from 'nuid';
+
+async function readVersion() {
+  try {
+    const data = await readFileSync(
+      join(__dirname, '../src', './version.md'),
+      'utf-8',
+    );
+    // 等待操作结果返回，然后打印结果
+    const version = data.split('\r\n');
+    console.log(
+      '当前版本：' +
+        version[version.length - 1] +
+        '\r\n' +
+        'http://localhost:3000/doc-api',
+    );
+  } catch (e) {
+    console.log('读取文件发生错误');
+  }
+}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -23,6 +44,7 @@ async function bootstrap() {
   SwaggerModule.setup('/doc-api', app, document);
 
   await app.listen(3000);
+  readVersion();
 }
 bootstrap();
 
