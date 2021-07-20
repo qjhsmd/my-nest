@@ -7,26 +7,6 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { join } from 'path';
 import { readFileSync } from 'fs';
-import { version } from 'nuid';
-
-async function readVersion() {
-  try {
-    const data = await readFileSync(
-      join(__dirname, '../src', './version.md'),
-      'utf-8',
-    );
-    // 等待操作结果返回，然后打印结果
-    const version = data.split('\r\n');
-    console.log(
-      '当前版本：' +
-        version[version.length - 1] +
-        '\r\n' +
-        'http://localhost:3000/doc-api',
-    );
-  } catch (e) {
-    console.log('读取文件发生错误');
-  }
-}
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -57,3 +37,22 @@ const options = new DocumentBuilder()
   .addTag('用户,安全') // 每个tag标签都可以对应着几个@ApiUseTags('用户,安全') 然后被ApiUseTags注释，字符串一致的都会变成同一个标签下的
   // .setBasePath('http://localhost:5000')
   .build();
+
+async function readVersion() {
+  try {
+    const data = await readFileSync(
+      join(__dirname, '../src', './version.md'),
+      'utf-8',
+    );
+    // 等待操作结果返回，然后打印结果
+    const version = data.split('\r\n');
+    console.log(
+      '当前版本：' +
+        version[version.length - 1] +
+        '\r\n' +
+        '文档地址：http://localhost:3000/doc-api',
+    );
+  } catch (e) {
+    console.log('读取文件发生错误');
+  }
+}
