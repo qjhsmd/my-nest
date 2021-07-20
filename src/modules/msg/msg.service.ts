@@ -19,7 +19,6 @@ export class MsgService {
       console.log(res);
     } catch (err) {
       console.log(err);
-      // return err;
       throw new HttpException(
         { message: '创建留言失败', err: err },
         HttpStatus.OK,

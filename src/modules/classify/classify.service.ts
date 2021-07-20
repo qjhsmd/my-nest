@@ -11,7 +11,15 @@ export class ClassifyService {
   ) {}
 
   findAll(): Promise<MyClassify[]> {
-    return this.classifyRepository.find();
+    try {
+      return this.classifyRepository.find();
+    } catch (err) {
+      console.log(err);
+      throw new HttpException(
+        { message: '查询所有分类失败', err: err },
+        HttpStatus.OK,
+      );
+    }
   }
   async saveClassify(MyClassify): Promise<void> {
     try {
@@ -19,7 +27,6 @@ export class ClassifyService {
       console.log(res);
     } catch (err) {
       console.log(err);
-      // return err;
       throw new HttpException(
         { message: '创建分类失败', err: err },
         HttpStatus.OK,
