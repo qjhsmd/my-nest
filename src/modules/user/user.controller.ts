@@ -7,7 +7,6 @@ import {
   Body,
   HttpException,
   HttpStatus,
-  Request,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
@@ -20,7 +19,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('saveUser')
-  @ApiOperation({ summary: '保存用户信息' })
+  @ApiOperation({ summary: '管理员创建用户' })
   async saveUser(@Body() user: User): Promise<any> {
     return await this.userService.saveUser(user);
   }

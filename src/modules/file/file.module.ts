@@ -5,12 +5,12 @@ import dayjs = require('dayjs');
 import { diskStorage } from 'multer';
 import * as nuid from 'nuid';
 let bascUrl = '';
-if (process.env.NODE_ENV === 'production ') {
-  bascUrl = '../';
-  console.log('生产环境');
-} else {
+if (process.env.NODE_ENV === 'development') {
   bascUrl = './';
   console.log('开发环境');
+} else {
+  bascUrl = '../';
+  console.log('生产环境');
 }
 @Module({
   imports: [
