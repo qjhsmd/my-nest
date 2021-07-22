@@ -36,6 +36,7 @@ export class AuthController {
   // @ApiQuery({ name: 'pass_word', description: 'string', required: false })
   @ApiBody({ description: '用户登录', type: LoginDTO })
   async login(@Body() user: User, @Request() req): Promise<any> {
+    console.log(req.user);
     return await this.authService.login(req.user);
     // throw new HttpException(
     //   { code: 0, message: '登录成功', data: res },

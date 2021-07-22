@@ -24,7 +24,7 @@ export class AuthService {
       iss: 'cnnngt.top',
       user: user.user_name,
       sub: user.id,
-      eamil: 'qjh886@qq.com',
+      eamil: user.email,
     };
     return {
       token:

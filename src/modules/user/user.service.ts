@@ -47,6 +47,7 @@ export class UserService {
       image: res.image,
       roles: res.roles,
       user_name: res.user_name,
+      email: res.email,
     };
   }
 

@@ -134,7 +134,7 @@ export class ArtcleService {
 
   async findBlogOne(id: string, header: string): Promise<any> {
     try {
-      const redisName = 'blog' + header + '_' + id;
+      const redisName = 'blog_' + header + '_' + id;
       const res = await this.cacheService.get(redisName);
       const artcle: any = await this.artcleRepository.findOne(id);
       if (res === null) {
@@ -142,9 +142,9 @@ export class ArtcleService {
         await this.cacheService.set(redisName, true, 300);
         artcle.view_count = artcle.view_count + 1;
         await this.artcleRepository.save(artcle);
-        console.log('浏览量加1');
+        console.log('博客' + redisName + '浏览量加1');
       } else {
-        console.log('不计入浏览量');
+        console.log('博客' + redisName + '的本次访问不计入浏览量');
       }
       return artcle;
     } catch (err) {

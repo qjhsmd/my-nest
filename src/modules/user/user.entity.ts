@@ -20,9 +20,11 @@ export class User {
   @Column({ nullable: false })
   pass_word: string;
 
+  @Column({ nullable: false })
+  email: string;
+
   @Column({
-    default:
-      'https://img2.woyaogexing.com/2021/07/15/5032080dcd8844f7bbdd89b6ac022bdf!400x400.png',
+    default: '',
     nullable: true,
   })
   image: string;

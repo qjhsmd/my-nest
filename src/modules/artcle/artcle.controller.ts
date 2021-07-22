@@ -74,7 +74,6 @@ export class ArtcleController {
     @Query() query: any,
     @Headers('x-forwarded-for') header: any,
   ): Promise<any> {
-    console.log(header);
     return await this.artcleService.findBlogOne(query.id, header);
   }
 

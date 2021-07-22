@@ -16,7 +16,7 @@ export class VisitsEntity {
   @Column()
   city: string;
 
-  @Column()
+  @Column({ length: 1000 })
   userAgent: string;
 
   @Column()

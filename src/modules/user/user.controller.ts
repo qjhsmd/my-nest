@@ -2,9 +2,11 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Query,
   UseGuards,
   Body,
+  Request,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -33,8 +35,14 @@ export class UserController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('userInfo')
-  async findOne(@Query() user: User): Promise<User> {
-    return await this.userService.findOne(user.id);
+  async findOne(@Request() req: any): Promise<any> {
+    return await this.userService.findOne(req.user.id);
+  }
+
+  @Put('updateUser')
+  @ApiOperation({ summary: '更新用户信息' })
+  async updateUser(@Body() user: User): Promise<any> {
+    return await this.userService.saveUser(user);
   }
 
   @UseGuards(AuthGuard('jwt'))
