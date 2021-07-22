@@ -28,11 +28,20 @@ export class VisitsService {
 
   async saveVisits(VisitsEntity): Promise<void> {
     try {
-      const res = await this.repository.save(VisitsEntity);
-      console.log(res);
+      await this.repository.save(VisitsEntity);
     } catch (err) {
       throw new HttpException(
         { message: '保存访问记录失败', err: err },
+        HttpStatus.OK,
+      );
+    }
+  }
+  async remove(id: number): Promise<any> {
+    try {
+      await this.repository.delete(id);
+    } catch (err) {
+      throw new HttpException(
+        { message: '删除访问记录失败', err: err },
         HttpStatus.OK,
       );
     }

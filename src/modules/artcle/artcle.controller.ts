@@ -6,11 +6,8 @@ import {
   Delete,
   Query,
   Body,
-  Res,
-  HttpException,
-  HttpStatus,
   UseGuards,
-  Request,
+  Headers,
 } from '@nestjs/common';
 import { ArtcleEntity } from './artcle.entity';
 import { ArtcleService } from './artcle.service';
@@ -73,8 +70,12 @@ export class ArtcleController {
   @Get('blogDetail')
   @ApiOperation({ summary: '查询博客详情' })
   @ApiQuery({ name: 'id', description: 'string' })
-  async getBlogDetail(@Query() query: any): Promise<any> {
-    return await this.artcleService.findBlogOne(query.id);
+  async getBlogDetail(
+    @Query() query: any,
+    @Headers('x-forwarded-for') header: any,
+  ): Promise<any> {
+    console.log(header);
+    return await this.artcleService.findBlogOne(query.id, header);
   }
 
   @Get('blogIssue')

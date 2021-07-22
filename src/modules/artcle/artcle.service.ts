@@ -2,12 +2,14 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ArtcleEntity } from './artcle.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, IsNull, Not } from 'typeorm';
+import { CacheService } from '../app/cache.service';
 
 @Injectable()
 export class ArtcleService {
   constructor(
     @InjectRepository(ArtcleEntity)
     private artcleRepository: Repository<ArtcleEntity>,
+    private readonly cacheService: CacheService,
   ) {}
 
   async saveArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
@@ -130,11 +132,20 @@ export class ArtcleService {
     }
   }
 
-  async findBlogOne(id: number): Promise<any> {
+  async findBlogOne(id: string, header: string): Promise<any> {
     try {
+      const redisName = 'blog' + header + '_' + id;
+      const res = await this.cacheService.get(redisName);
       const artcle: any = await this.artcleRepository.findOne(id);
-      artcle.view_count = artcle.view_count + 1;
-      await this.artcleRepository.save(artcle);
+      if (res === null) {
+        // 如果没有缓存，浏览量加1
+        await this.cacheService.set(redisName, true, 300);
+        artcle.view_count = artcle.view_count + 1;
+        await this.artcleRepository.save(artcle);
+        console.log('浏览量加1');
+      } else {
+        console.log('不计入浏览量');
+      }
       return artcle;
     } catch (err) {
       console.log(err);

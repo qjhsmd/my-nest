@@ -14,23 +14,25 @@ export class LoggerMiddleware implements NestMiddleware {
     console.log('Request...method=' + req.method + '...url=' + req.baseUrl);
 
     const host: any = req.headers['x-forwarded-for'];
-    // console.log(await this.cacheService.get(host));
 
     const visits = await this.cacheService.get(host);
     if (visits === null) {
-      await this.cacheService.set(host, true, 600);
+      await this.cacheService.set(host, true, 300);
       let city: any = 'China';
       if (lookup(host) != null) {
-        city = lookup(host);
+        city = lookup(host).city;
       }
       const params = {
-        host: host,
+        host: host ? host : '未知地址',
         city: city,
         userAgent: req.headers['user-agent'],
-        entrance: req.headers['authorization'] ? '后台管理端' : ' 博客端',
+        entrance: req.headers['host']
+          ? req.headers['host']
+          : req.headers['x-forwarded-host'],
         terminal: terminal(req.headers['user-agent']),
         explorer: myexplorer(req.headers['user-agent']),
       };
+
       this.visitsService.saveVisits(params);
     }
     next();
@@ -39,7 +41,6 @@ export class LoggerMiddleware implements NestMiddleware {
 
 function terminal(userAgent) {
   const u = userAgent;
-  // app = navigator.appVersion;
   if (u.indexOf('Android') > -1 || u.indexOf('Linux') > -1) {
     // android终端或者uc浏览器
     return 'android';
@@ -53,30 +54,22 @@ function terminal(userAgent) {
 }
 
 function myexplorer(explorer) {
-  // if (explorer.indexOf('MSIE') >= 0) {
-  //   return 'ie';
-  // }
-  //firefox
-  if (explorer.indexOf('Firefox') >= 0) {
+  if (explorer.indexOf('MSIE') >= 0 && explorer.indexOf('Trident')) {
+    return 'ie';
+  } else if (explorer.indexOf('Firefox') >= 0) {
     return 'Firefox';
-  }
-  //Chrome
-  else if (explorer.indexOf('Chrome') >= 0) {
+  } else if (explorer.indexOf('Chrome') >= 0) {
     return 'Chrome';
-  }
-  //Opera
-  else if (explorer.indexOf('Opera') >= 0) {
+  } else if (explorer.indexOf('Opera') >= 0) {
     return 'Opera';
-  }
-  //Safari
-  else if (explorer.indexOf('Safari') >= 0) {
+  } else if (explorer.indexOf('Safari') >= 0) {
     return 'Safari';
-  }
-  //Netscape
-  else if (explorer.indexOf('Netscape') >= 0) {
+  } else if (explorer.indexOf('Netscape') >= 0) {
     return 'Netscape';
+  } else if (explorer.indexOf('AppleWebKit') >= 0) {
+    return 'AppleWebKit 内核的其他浏览器';
   } else {
-    return 'IE';
+    return '未知浏览器';
   }
 }
 
