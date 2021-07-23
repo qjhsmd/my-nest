@@ -10,6 +10,6 @@ export class MyClassify {
 
   @Column({ nullable: false })
   pid: number;
-  @OneToOne((type) => ArtcleEntity, (artcleEntity) => artcleEntity.classify)
-  artcledata: ArtcleEntity;
+  // @OneToOne((type) => ArtcleEntity, (artcleEntity) => artcleEntity.classify)
+  // artcledata: ArtcleEntity;
 }

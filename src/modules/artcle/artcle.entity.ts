@@ -6,8 +6,11 @@ import {
   JoinColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { MyClassify } from '../classify/classify.entity';
+import { CommentEntity } from './comment.entity';
+
 @Entity()
 export class ArtcleEntity {
   @PrimaryGeneratedColumn()
@@ -63,7 +66,10 @@ export class ArtcleEntity {
   @Column({ default: 10 }) //10 未发布  20 发布 30 关闭
   artcle_status: number;
 
-  @OneToOne((type) => MyClassify, (MyClassify) => MyClassify.artcledata)
-  @JoinColumn()
-  classify: MyClassify;
+  @OneToMany(() => CommentEntity, (commentEntity) => commentEntity.artcleEntity)
+  commentEntity: CommentEntity[];
+
+  // @OneToOne((type) => MyClassify, (MyClassify) => MyClassify.artcledata)
+  // @JoinColumn()
+  // classify: MyClassify;
 }

@@ -1,5 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { ArtcleEntity } from './artcle.entity';
+import { CommentEntity } from './comment.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, IsNull, Not } from 'typeorm';
 import { CacheService } from '../app/cache.service';
@@ -8,12 +9,21 @@ import { CacheService } from '../app/cache.service';
 export class ArtcleService {
   constructor(
     @InjectRepository(ArtcleEntity)
+    @InjectRepository(CommentEntity)
     private artcleRepository: Repository<ArtcleEntity>,
     private readonly cacheService: CacheService,
   ) {}
 
   async saveArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
     try {
+      const params: any = {
+        commentContent: '测试评论333',
+      };
+      const params1: any = {
+        commentContent: '测试评论444',
+      };
+      artcle.commentEntity = [params, params1];
+
       const res = await this.artcleRepository.save(artcle);
       return res;
     } catch (err) {
@@ -152,19 +162,19 @@ export class ArtcleService {
       throw new HttpException({ message: '查询文章详情失败' }, HttpStatus.OK);
     }
   }
-  // 访问统计
-  async visitBlog(id: number): Promise<DeleteResult> {
-    try {
-      const artcle: any = await this.artcleRepository.findOne({
-        where: {
-          id: id,
-        },
-      });
-      artcle.view_count = artcle.view_count + 1;
-      return await this.artcleRepository.save(artcle);
-    } catch (err) {
-      console.log(err);
-      throw new HttpException({ message: '更新浏览数失败' }, HttpStatus.OK);
-    }
+  async addComment(): Promise<any> {
+    const params: any = {
+      commentContent: '测试评论333',
+    };
+    const params1: any = {
+      commentContent: '测试评论444',
+    };
+    const artcle: any = {
+      id: 40,
+      commentEntity: [params, params1],
+    };
+
+    const res: any = await this.artcleRepository.save(artcle);
+    console.log(res);
   }
 }

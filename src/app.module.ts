@@ -16,6 +16,7 @@ import { VisitsModule } from './modules/visits/visits.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './modules/user/user.entity';
 import { ArtcleEntity } from './modules/artcle/artcle.entity';
+import { CommentEntity } from './modules/artcle/comment.entity';
 import { MyClassify } from './modules/classify/classify.entity';
 import { MsgEntity } from './modules/msg/msg.entity';
 import { VisitsEntity } from './modules/visits/visits.entity';
@@ -31,7 +32,14 @@ import { RedisModule } from 'nestjs-redis';
       username: 'root',
       password: '_Q,j&h*54618482',
       database: 'blog',
-      entities: [User, MyClassify, ArtcleEntity, MsgEntity, VisitsEntity],
+      entities: [
+        User,
+        MyClassify,
+        ArtcleEntity,
+        MsgEntity,
+        VisitsEntity,
+        CommentEntity,
+      ],
       synchronize: true,
     }),
     RedisModule.register({

@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ArtcleEntity } from './artcle.entity';
 import { ArtcleService } from './artcle.service';
+import { CommentService } from './comment.service';
 import { AuthGuard } from '@nestjs/passport';
 import {
   ApiTags,
@@ -23,7 +24,10 @@ import {
 @ApiTags('文章管理')
 @Controller('api/artcle')
 export class ArtcleController {
-  constructor(private readonly artcleService: ArtcleService) {}
+  constructor(
+    private readonly artcleService: ArtcleService,
+    private readonly commentService: CommentService,
+  ) {}
 
   @UseGuards(AuthGuard('jwt'))
   @Get('findAll')
@@ -89,5 +93,12 @@ export class ArtcleController {
   @ApiQuery({ name: 'id', description: 'string' })
   async blogUnissue(@Query() query: any): Promise<any> {
     return await this.artcleService.unIssue(query.id);
+  }
+
+  @Get('addComment')
+  @ApiOperation({ summary: '添加博客评论' })
+  // @ApiQuery({ name: 'id', description: 'string' })
+  async addComment(@Query() query: any): Promise<any> {
+    return await this.commentService.addComment();
   }
 }
