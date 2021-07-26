@@ -12,8 +12,11 @@ export class CommentEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ length: 2000 })
+  content: string;
+
   @Column()
-  commentContent: string;
+  artcleEntityId: number;
 
   @CreateDateColumn()
   create_time: Date;

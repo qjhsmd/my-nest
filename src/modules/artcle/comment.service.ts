@@ -10,15 +10,30 @@ export class CommentService {
     private commentRepository: Repository<CommentEntity>,
   ) {}
 
-  async addComment(): Promise<any> {
+  async addComment(comment: any): Promise<any> {
     const artcle: any = {
-      id: 40,
-      title: '测试',
+      id: comment.artcleId,
     };
     const params: any = {
-      commentContent: '测试评论',
+      content: comment.content,
+      // artcleId: comment.artcleId,
       artcleEntity: artcle,
     };
+    console.log(params);
     this.commentRepository.save(params);
+  }
+  async listComment(query: any): Promise<any> {
+    const res = await this.commentRepository.findAndCount({
+      // relations: ['artcleEntity'],
+      where: {
+        artcleEntityId: query.artcleId,
+      },
+      order: {
+        create_time: 'DESC',
+      },
+      skip: query.pageSize ? query.pageSize * (query.page - 1) : 0,
+      take: query.pageSize ? query.pageSize : 9999,
+    });
+    return { total: res[1], list: res[0] };
   }
 }

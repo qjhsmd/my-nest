@@ -16,13 +16,13 @@ export class ArtcleService {
 
   async saveArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
     try {
-      const params: any = {
-        commentContent: '测试评论333',
-      };
-      const params1: any = {
-        commentContent: '测试评论444',
-      };
-      artcle.commentEntity = [params, params1];
+      // const params: any = {
+      //   commentContent: '测试评论333',
+      // };
+      // const params1: any = {
+      //   commentContent: '测试评论444',
+      // };
+      // artcle.commentEntity = [params, params1];
 
       const res = await this.artcleRepository.save(artcle);
       return res;
@@ -161,20 +161,5 @@ export class ArtcleService {
       console.log(err);
       throw new HttpException({ message: '查询文章详情失败' }, HttpStatus.OK);
     }
-  }
-  async addComment(): Promise<any> {
-    const params: any = {
-      commentContent: '测试评论333',
-    };
-    const params1: any = {
-      commentContent: '测试评论444',
-    };
-    const artcle: any = {
-      id: 40,
-      commentEntity: [params, params1],
-    };
-
-    const res: any = await this.artcleRepository.save(artcle);
-    console.log(res);
   }
 }

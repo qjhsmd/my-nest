@@ -95,10 +95,16 @@ export class ArtcleController {
     return await this.artcleService.unIssue(query.id);
   }
 
-  @Get('addComment')
+  @Post('addComment')
   @ApiOperation({ summary: '添加博客评论' })
   // @ApiQuery({ name: 'id', description: 'string' })
-  async addComment(@Query() query: any): Promise<any> {
-    return await this.commentService.addComment();
+  async addComment(@Body() comment: any): Promise<any> {
+    return await this.commentService.addComment(comment);
+  }
+
+  @Get('listComment')
+  @ApiOperation({ summary: '查询博客的评论列表' })
+  async listComment(@Query() query: any): Promise<any> {
+    return await this.commentService.listComment(query);
   }
 }
