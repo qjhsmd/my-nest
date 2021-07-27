@@ -122,6 +122,7 @@ export class ArtcleService {
           'update_time',
           'artcle_describe',
           'artcle_status',
+          'comments_count',
           'image_uri',
           'id',
         ],
@@ -149,7 +150,7 @@ export class ArtcleService {
       const artcle: any = await this.artcleRepository.findOne(id);
       if (res === null) {
         // 如果没有缓存，浏览量加1
-        await this.cacheService.set(redisName, true, 300);
+        await this.cacheService.set(redisName, true, 600);
         artcle.view_count = artcle.view_count + 1;
         await this.artcleRepository.save(artcle);
         console.log('博客' + redisName + '浏览量加1');
@@ -160,6 +161,18 @@ export class ArtcleService {
     } catch (err) {
       console.log(err);
       throw new HttpException({ message: '查询文章详情失败' }, HttpStatus.OK);
+    }
+  }
+
+  // 更新评论数量
+  async setcommentsCount(id: number): Promise<any> {
+    try {
+      const artcle = await this.findOne(id);
+      artcle.comments_count = artcle.comments_count + 1;
+      await this.artcleRepository.save(artcle);
+    } catch (err) {
+      console.log(err);
+      throw new HttpException({ message: '更新评论数量失败' }, HttpStatus.OK);
     }
   }
 }
