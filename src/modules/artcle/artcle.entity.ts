@@ -37,6 +37,9 @@ export class ArtcleEntity {
   @UpdateDateColumn()
   update_time: Date;
 
+  @Column({ nullable: true })
+  modify_time: Date;
+
   @Column({ default: 0, nullable: true })
   view_count: number;
 

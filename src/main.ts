@@ -25,6 +25,7 @@ async function bootstrap() {
 
   await app.listen(3000);
   readVersion();
+  console.log(process.env.NODE_ENV);
 }
 bootstrap();
 

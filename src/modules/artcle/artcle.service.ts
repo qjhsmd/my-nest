@@ -23,7 +23,7 @@ export class ArtcleService {
       //   commentContent: '测试评论444',
       // };
       // artcle.commentEntity = [params, params1];
-
+      artcle.modify_time = new Date();
       const res = await this.artcleRepository.save(artcle);
       return res;
     } catch (err) {
@@ -44,10 +44,11 @@ export class ArtcleService {
         'update_time',
         'artcle_describe',
         'artcle_status',
+        'modify_time',
         'id',
       ],
       order: {
-        update_time: 'DESC',
+        modify_time: 'DESC',
       },
       skip: query.pageSize * (query.page - 1),
       take: query.pageSize,
@@ -66,6 +67,7 @@ export class ArtcleService {
 
   async updateArtcle(artcle: ArtcleEntity): Promise<ArtcleEntity> {
     try {
+      artcle.modify_time = new Date();
       return await this.artcleRepository.save(artcle);
     } catch (err) {
       console.log(err);
@@ -124,6 +126,7 @@ export class ArtcleService {
           'artcle_status',
           'comments_count',
           'image_uri',
+          'modify_time',
           'id',
         ],
         where: {
